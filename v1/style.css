@@ -1,0 +1,24 @@
+
+svg text {
+  text-align: center;
+}
+
+svg tspan {
+  background: #0f0;
+}
+
+.w50 {
+  font-variation-settings: "wdth" 50;
+}
+
+.w100 {
+  font-variation-settings: "wdth" 100;
+}
+
+.w150 {
+  font-variation-settings: "wdth" 150;
+}
+
+.w200 {
+  font-variation-settings: "wdth" 200;
+}

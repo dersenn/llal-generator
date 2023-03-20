@@ -557,7 +557,7 @@ function divLength(a, b, nSeg, incStartEnd = false, t = 1/nSeg, oA = []) {
 function shuffle(iA) {
   oA = Array.from(iA) // Copy Array. Only one dimensional arrays!
   for (let i = oA.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+      const j = Math.floor(rnd() * (i + 1));
       [oA[i], oA[j]] = [oA[j], oA[i]];
   }
   return oA;
