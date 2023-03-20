@@ -9,6 +9,12 @@ if (useSeed) {
   seed = false
 }
 
+// NOISE
+
+// let simplex = new SimplexNoise(seed.hash)
+
+// SETUP
+
 const setup = {
       id: 'mySVG',
       parent: document.body,
@@ -18,12 +24,43 @@ const setup = {
 let svg = new SVG(setup)
 
 
-// NOISE
-
-let simplex = new SimplexNoise(seed.hash)
 
 
-// SETUP
+
+let defs = document.createElementNS(svg.ns, 'defs')
+let style = document.createElementNS(svg.ns, 'style')
+style.setAttribute('type', 'text/css')
+
+style.append('@font-face \{ font-family: LLAL; src: url(\'../assets/fonts/LLALLogoLinearGX.ttf\')\; \}')
+style.append('svg \{ font-family: LLAL; \}')
+
+defs.append(style)
+svg.stage.prepend(defs)
+
+
+
+let swirl = document.createElementNS(svg.ns, 'filter')
+swirl.setAttribute('id', 'swirl')
+
+let turb = document.createElementNS(svg.ns, 'feTurbulence')
+turb.setAttribute('type', 'turbulence')
+turb.setAttribute('baseFrequency', '.02')
+turb.setAttribute('numOctaves', '2')
+turb.setAttribute('result', 'turbulence')
+
+let disp = document.createElementNS(svg.ns, 'feDisplacementMap')
+disp.setAttribute('in2', 'turbulence')
+disp.setAttribute('in', 'SourceGraphic')
+disp.setAttribute('scale', '10')
+disp.setAttribute('xChannelSelector', 'R')
+disp.setAttribute('yChannelSelector', 'G')
+
+swirl.append(turb, disp)
+svg.stage.prepend(swirl)
+
+svg.stage.setAttribute('style', 'filter: url(#swirl')
+
+
 
 const wdths = [50, 100, 150, 200]
 const nRows = 20
@@ -36,46 +73,48 @@ let a = nVec(0, 0)
 let txt = 'LLAL'
 
 
+let cols = []
 
-svg.makeText = function(pos, txt) {
-  let text = document.createElementNS(this.ns, 'text')
-  text.setAttribute('x', pos.x)
-  text.setAttribute('y', pos.y)
-  text.setAttribute('dy', lOff)
-  text.setAttribute('style', 'font-size: ' +fSize)
+let group = document.createElementNS(svg.ns, 'g')
+// group.setAttribute('style', 'filter: url(#swirl)')
+
+svg.stage.append(group)
+
+
+
+for (let col = 0; col < nCols; col++) {
+  
+  let text = document.createElementNS(svg.ns, 'text')
+  text.setAttribute('x', a.x)
+  text.setAttribute('y', a.y)
+  text.setAttribute('style', 'font-size: ' + fSize)
+  text.setAttribute('class', 'col')
 
   for (let row = 0; row < nRows; row++) {
-    let row = document.createElementNS(this.ns, 'tspan')
-    row.setAttribute('x', pos.x)
+    let row = document.createElementNS(svg.ns, 'tspan')
+    row.setAttribute('x', a.x)
     row.setAttribute('dy', lOff)
+    row.setAttribute('class', 'row')
 
     let wShuffled = shuffle(wdths)
     for (let g = 0; g < txt.length; g++) {
-      svg.makeSpan(txt[g], row, wShuffled[g])
+      let span = document.createElementNS(svg.ns, 'tspan')
+      span.setAttribute('style', 'font-variation-settings: \'wdth\' ' + wShuffled[g])
+      span.innerHTML = txt[g]
+      row.append(span)
     }
     text.append(row)
   }
-  
-  // text.innerHTML = txt
-  this.stage.append(text)
-  return text
-}
+  group.append(text)
 
-svg.makeSpan = function(txt, parent, w = 50) {
-  let span = document.createElementNS(this.ns, 'tspan')
-  span.setAttribute('style', 'font-variation-settings: \'wdth\' ' +w)
-  span.innerHTML = txt
-  parent.append(span)
-  return span
-}
-
-let cols = []
-
-for (let col = 0; col < nCols; col++) {
-  console.log(simplex.noise2D(col, 1))
-  cols.push(svg.makeText(a, txt))
+  cols.push(text)
   a.x += cols[col].getBBox().width
 }
+
+
+
+
+
 
 
 
