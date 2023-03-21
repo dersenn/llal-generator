@@ -58,9 +58,8 @@ disp.setAttribute('yChannelSelector', 'G')
 swirl.append(turb, disp)
 svg.stage.prepend(swirl)
 
-svg.stage.setAttribute('style', 'filter: url(#swirl')
 
-
+let usefilter = true
 
 const wdths = [50, 100, 150, 200]
 const nRows = 20
@@ -71,6 +70,10 @@ const lOff = '.66em'
 
 let a = nVec(0, 0)
 let txt = 'LLAL'
+
+if (usefilter) {
+  svg.stage.setAttribute('style', 'filter: url(#swirl')
+}
 
 
 let cols = []
