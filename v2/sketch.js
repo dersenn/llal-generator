@@ -1,3 +1,6 @@
+// https://redstapler.co/realistic-water-effect-svg-turbulence-filter/
+// https://tympanus.net/codrops/2019/02/19/svg-filter-effects-creating-texture-with-feturbulence/
+
 
 // INIT
 
