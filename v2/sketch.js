@@ -44,7 +44,7 @@ swirl.setAttribute('id', 'swirl')
 
 let turb = document.createElementNS(svg.ns, 'feTurbulence')
 turb.setAttribute('type', 'turbulence')
-turb.setAttribute('baseFrequency', '.02')
+turb.setAttribute('baseFrequency', '.007 .001')
 turb.setAttribute('numOctaves', '2')
 turb.setAttribute('result', 'turbulence')
 
