@@ -4,7 +4,7 @@
 
 // INIT
 
-let useSeed = true
+const useSeed = true
 let seed
 if (useSeed) {
   seed = new Hash()
@@ -42,11 +42,14 @@ svg.stage.prepend(defs)
 
 
 
-let usefilter = true
+const usefilter = true
+
+const blanks = true
+const blanksProb = rnd()*100
 
 const wdths = [50, 100, 150, 200]
-const nCols = 6
-const nRows = 9
+const nCols = 20
+const nRows = rndInt(3, 30)
 const fSize = (100 / nRows) * 1.5 +'vh'
 const lOff = '.66em'
 
@@ -54,27 +57,8 @@ const lOff = '.66em'
 let a = nVec(0, 0)
 let txt = 'LLAL'
 
+
 // FILTER STUFF
-/*
-let swirl = document.createElementNS(svg.ns, 'filter')
-swirl.setAttribute('id', 'swirl')
-
-let turb = document.createElementNS(svg.ns, 'feTurbulence')
-turb.setAttribute('type', 'turbulence')
-turb.setAttribute('baseFrequency', '.007 .001')
-turb.setAttribute('numOctaves', '2')
-turb.setAttribute('result', 'turbulence')
-
-let disp = document.createElementNS(svg.ns, 'feDisplacementMap')
-disp.setAttribute('in2', 'turbulence')
-disp.setAttribute('in', 'SourceGraphic')
-disp.setAttribute('scale', '10')
-disp.setAttribute('xChannelSelector', 'R')
-disp.setAttribute('yChannelSelector', 'G')
-
-swirl.append(turb, disp)
-svg.stage.prepend(swirl)
-*/
 
 if (usefilter) {
   let swirl = document.createElementNS(svg.ns, 'filter')
@@ -83,14 +67,14 @@ if (usefilter) {
   let turb = document.createElementNS(svg.ns, 'feTurbulence')
   turb.setAttribute('type', 'turbulence')
   turb.setAttribute('seed', rnd()*100)
-  turb.setAttribute('baseFrequency', '.003 .003')
-  turb.setAttribute('numOctaves', '9')
+  turb.setAttribute('baseFrequency', `${rnd()/100} ${rnd()/100}`)
+  turb.setAttribute('numOctaves', rnd()*10)
   turb.setAttribute('result', 'turbulence')
 
   let disp = document.createElementNS(svg.ns, 'feDisplacementMap')
   disp.setAttribute('in2', 'turbulence')
   disp.setAttribute('in', 'SourceGraphic')
-  disp.setAttribute('scale', '90')
+  disp.setAttribute('scale', rnd()*100)
   disp.setAttribute('xChannelSelector', 'R')
   disp.setAttribute('yChannelSelector', 'G')
 
@@ -108,8 +92,24 @@ let group = document.createElementNS(svg.ns, 'g')
 svg.stage.append(group)
 
 
+// GRAPHICS
+
+// let rect = svg.makeRect(a, svg.w, svg.h)
+// rect.setAttribute('style', 'fill: red')
+
+// let circles = []
+// let nCircles = rndInt(5, 50)
+
+// for (let c = 0; c < nCircles; c++) {
+//   let pos = {
+//     x: rnd() * svg.w,
+//     y: rnd() * svg.h
+//   }
+//   circles.push(svg.makeCircle(pos, rnd()*300, 'transparent', 'black', rndInt(3, 20)))
+// }
 
 
+// LETTERS
 
 for (let col = 0; col < nCols; col++) {
   
@@ -128,10 +128,10 @@ for (let col = 0; col < nCols; col++) {
     let wShuffled = shuffle(wdths)
     for (let g = 0; g < txt.length; g++) {
       let rndfill = 'black'
-      if(coinToss(30)) {
-        rndfill = 'white'
-      } else {
-        rndfill = 'black'
+      if(blanks) {
+        if(coinToss(blanksProb)) {
+          rndfill = 'white'
+        }
       }
       let span = document.createElementNS(svg.ns, 'tspan')
       span.setAttribute('style', 'font-size: ' + fSize + ';' + 'font-variation-settings: \'wdth\' ' + wShuffled[g] + ';' +  'fill: ' + rndfill)
