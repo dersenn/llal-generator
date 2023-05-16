@@ -41,6 +41,19 @@ defs.append(style)
 svg.stage.prepend(defs)
 
 
+
+let usefilter = true
+
+const wdths = [50, 100, 150, 200]
+const nCols = 6
+const nRows = 9
+const fSize = (100 / nRows) * 1.5 +'vh'
+const lOff = '.66em'
+
+
+let a = nVec(0, 0)
+let txt = 'LLAL'
+
 // FILTER STUFF
 /*
 let swirl = document.createElementNS(svg.ns, 'filter')
@@ -63,24 +76,29 @@ swirl.append(turb, disp)
 svg.stage.prepend(swirl)
 */
 
-let usefilter = false
-
-const wdths = [50, 100, 150, 200]
-const nCols = 3
-const nRows = 20
-const fSize = (100 / nRows) * 1.5 +'vh'
-const lOff = '.66em'
-
-
-let a = nVec(0, 0)
-let txt = 'LLAL'
-
-// MORE FILTER STUFF
-/*
 if (usefilter) {
+  let swirl = document.createElementNS(svg.ns, 'filter')
+  swirl.setAttribute('id', 'swirl')
+
+  let turb = document.createElementNS(svg.ns, 'feTurbulence')
+  turb.setAttribute('type', 'turbulence')
+  turb.setAttribute('seed', rnd()*100)
+  turb.setAttribute('baseFrequency', '.003 .003')
+  turb.setAttribute('numOctaves', '9')
+  turb.setAttribute('result', 'turbulence')
+
+  let disp = document.createElementNS(svg.ns, 'feDisplacementMap')
+  disp.setAttribute('in2', 'turbulence')
+  disp.setAttribute('in', 'SourceGraphic')
+  disp.setAttribute('scale', '90')
+  disp.setAttribute('xChannelSelector', 'R')
+  disp.setAttribute('yChannelSelector', 'G')
+
+  swirl.append(turb, disp)
+  svg.stage.prepend(swirl)
+
   svg.stage.setAttribute('style', 'filter: url(#swirl')
 }
-*/
 
 let cols = []
 
@@ -88,6 +106,8 @@ let group = document.createElementNS(svg.ns, 'g')
 // group.setAttribute('style', 'filter: url(#swirl)')
 
 svg.stage.append(group)
+
+
 
 
 
@@ -107,10 +127,15 @@ for (let col = 0; col < nCols; col++) {
 
     let wShuffled = shuffle(wdths)
     for (let g = 0; g < txt.length; g++) {
+      let rndfill = 'black'
+      if(coinToss(30)) {
+        rndfill = 'white'
+      } else {
+        rndfill = 'black'
+      }
       let span = document.createElementNS(svg.ns, 'tspan')
-      span.setAttribute('style', 'font-variation-settings: \'wdth\' ' + wShuffled[g])
+      span.setAttribute('style', 'font-size: ' + fSize + ';' + 'font-variation-settings: \'wdth\' ' + wShuffled[g] + ';' +  'fill: ' + rndfill)
       span.setAttribute('font-family', "LLAL Logo Linear")
-      // span.setAttribute('font-stretch', "expanded")
       span.innerHTML = txt[g]
       row.append(span)
     }
@@ -124,6 +149,13 @@ for (let col = 0; col < nCols; col++) {
 
 
 
+// SVG-TEXT-TO-PATH
+
+let session = new SvgTextToPath(document.querySelector('svg'), {
+  useFontFace: true,
+
+});
+// let stat = session.replaceAll();
 
 
 
