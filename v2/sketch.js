@@ -41,7 +41,8 @@ defs.append(style)
 svg.stage.prepend(defs)
 
 
-
+// FILTER STUFF
+/*
 let swirl = document.createElementNS(svg.ns, 'filter')
 swirl.setAttribute('id', 'swirl')
 
@@ -60,13 +61,13 @@ disp.setAttribute('yChannelSelector', 'G')
 
 swirl.append(turb, disp)
 svg.stage.prepend(swirl)
+*/
 
-
-let usefilter = true
+let usefilter = false
 
 const wdths = [50, 100, 150, 200]
+const nCols = 3
 const nRows = 20
-const nCols = 13
 const fSize = (100 / nRows) * 1.5 +'vh'
 const lOff = '.66em'
 
@@ -74,10 +75,12 @@ const lOff = '.66em'
 let a = nVec(0, 0)
 let txt = 'LLAL'
 
+// MORE FILTER STUFF
+/*
 if (usefilter) {
   svg.stage.setAttribute('style', 'filter: url(#swirl')
 }
-
+*/
 
 let cols = []
 
@@ -106,6 +109,8 @@ for (let col = 0; col < nCols; col++) {
     for (let g = 0; g < txt.length; g++) {
       let span = document.createElementNS(svg.ns, 'tspan')
       span.setAttribute('style', 'font-variation-settings: \'wdth\' ' + wShuffled[g])
+      span.setAttribute('font-family', "LLAL Logo Linear")
+      // span.setAttribute('font-stretch', "expanded")
       span.innerHTML = txt[g]
       row.append(span)
     }
@@ -116,7 +121,6 @@ for (let col = 0; col < nCols; col++) {
   cols.push(text)
   a.x += cols[col].getBBox().width
 }
-
 
 
 
