@@ -42,9 +42,9 @@ svg.stage.prepend(defs)
 
 
 
-const usefilter = true
+const usefilter = coinToss(50)
 
-const blanks = true
+const blanks = coinToss(50)
 const blanksProb = rnd()*100
 
 const wdths = [50, 100, 150, 200]
