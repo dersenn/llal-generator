@@ -42,9 +42,11 @@ svg.stage.prepend(defs)
 
 
 
-const usefilter = coinToss(50)
+const useFilter = coinToss(50)
+const useBlanks = coinToss(50)
+const useCircles = coinToss(50)
 
-const blanks = coinToss(50)
+
 const blanksProb = rnd()*100
 
 const wdths = [50, 100, 150, 200]
@@ -60,7 +62,7 @@ let txt = 'LLAL'
 
 // FILTER STUFF
 
-if (usefilter) {
+if (useFilter) {
   let swirl = document.createElementNS(svg.ns, 'filter')
   swirl.setAttribute('id', 'swirl')
 
@@ -94,19 +96,18 @@ svg.stage.append(group)
 
 // GRAPHICS
 
-// let rect = svg.makeRect(a, svg.w, svg.h)
-// rect.setAttribute('style', 'fill: red')
-
-// let circles = []
-// let nCircles = rndInt(5, 50)
-
-// for (let c = 0; c < nCircles; c++) {
-//   let pos = {
-//     x: rnd() * svg.w,
-//     y: rnd() * svg.h
-//   }
-//   circles.push(svg.makeCircle(pos, rnd()*300, 'transparent', 'black', rndInt(3, 20)))
-// }
+if(useCircles && useFilter) {
+  let circles = []
+  let nCircles = rndInt(5, 50)
+  
+  for (let c = 0; c < nCircles; c++) {
+    let pos = {
+      x: rnd() * svg.w,
+      y: rnd() * svg.h
+    }
+    circles.push(svg.makeCircle(pos, rnd()*300, 'transparent', 'black', rndInt(3, 20)))
+  }  
+}
 
 
 // LETTERS
@@ -128,7 +129,7 @@ for (let col = 0; col < nCols; col++) {
     let wShuffled = shuffle(wdths)
     for (let g = 0; g < txt.length; g++) {
       let rndfill = 'black'
-      if(blanks) {
+      if(useBlanks) {
         if(coinToss(blanksProb)) {
           rndfill = 'white'
         }
