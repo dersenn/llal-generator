@@ -34,7 +34,7 @@ let defs = document.createElementNS(svg.ns, 'defs')
 let style = document.createElementNS(svg.ns, 'style')
 style.setAttribute('type', 'text/css')
 
-style.append('@font-face \{ font-family: LLAL; src: url(\'../assets/fonts/LLALLogoLinearGX.ttf\')\; \}')
+style.append('@font-face \{ font-family: LLAL; src: url(\'/../assets/fonts/LLALLogoLinearGX.ttf\')\; \}')
 style.append('svg \{ font-family: LLAL; \}')
 
 defs.append(style)
