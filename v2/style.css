@@ -1,24 +1,20 @@
 
-svg text {
-  text-align: center;
+#controls {
+  position: fixed;
+  top: 1em;
+  right: 0;
+  width: fit-content;
+  height: fit-content;
+  z-index: 99;
+  font-family: 'Courier New', Courier, monospace;
 }
 
-svg tspan {
-  background: #0f0;
-}
-
-.w50 {
-  font-variation-settings: "wdth" 50;
-}
-
-.w100 {
-  font-variation-settings: "wdth" 100;
-}
-
-.w150 {
-  font-variation-settings: "wdth" 150;
-}
-
-.w200 {
-  font-variation-settings: "wdth" 200;
+.btn {
+  position: static;
+  margin-top: 1em;
+  padding: 1em;
+  color: #000;
+  background-color: #0f0;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
 }

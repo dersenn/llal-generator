@@ -109,7 +109,6 @@ if(useCircles && useFilter) {
   }  
 }
 
-
 // LETTERS
 
 for (let col = 0; col < nCols; col++) {
@@ -150,19 +149,24 @@ for (let col = 0; col < nCols; col++) {
 
 
 
-// SVG-TEXT-TO-PATH
+/////// INTERACTION, KEYS & FILEHANDLING
 
-let session = new SvgTextToPath(document.querySelector('svg'), {
-  useFontFace: true,
+function newSketch() {
+  const myURL = new URL(window.location.href)
+  const newHash = seed.new()
+  myURL.searchParams.set('seed', newHash)
+  window.location.href = myURL.href
+}
 
-});
-// let stat = session.replaceAll();
+const reloadBtn = document.getElementById('btnreload')
+reloadBtn.addEventListener('click', newSketch)
 
 
 
 
 
-// DRAW/ANIMATE
+
+// CONTROLS
 
 
 
