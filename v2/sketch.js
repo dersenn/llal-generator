@@ -12,11 +12,8 @@ if (useSeed) {
   seed = false
 }
 
-// NOISE
 
-// let simplex = new SimplexNoise(seed.hash)
-
-// SETUP
+// SETUP SVG
 
 const setup = {
       id: 'mySVG',
@@ -27,18 +24,15 @@ const setup = {
 let svg = new SVG(setup)
 
 
-
-
+// SETUP SKETCH
 
 let defs = document.createElementNS(svg.ns, 'defs')
-let style = document.createElementNS(svg.ns, 'style')
-style.setAttribute('type', 'text/css')
-
-// style.append('@font-face \{ font-family: LLAL-linear; src: url(\'assets/fonts/LLALLogoLinearGX.ttf\')\; \}')
-// style.append('svg \{ font-family: LLAL-linear; \}')
-
-defs.append(style)
 svg.stage.prepend(defs)
+
+
+// let style = document.createElementNS(svg.ns, 'style')
+// style.setAttribute('type', 'text/css')
+// defs.append(style)
 
 
 
@@ -58,6 +52,8 @@ const lOff = '.66em'
 
 let a = nVec(0, 0)
 let txt = 'LLAL'
+
+let cols = []
 
 
 // FILTER STUFF
@@ -86,12 +82,6 @@ if (useFilter) {
   svg.stage.setAttribute('style', 'filter: url(#swirl')
 }
 
-let cols = []
-
-let group = document.createElementNS(svg.ns, 'g')
-// group.setAttribute('style', 'filter: url(#swirl)')
-
-svg.stage.append(group)
 
 
 // GRAPHICS
@@ -109,7 +99,14 @@ if(useCircles && useFilter) {
   }  
 }
 
+
 // LETTERS
+
+let letters = document.createElementNS(svg.ns, 'g')
+letters.setAttribute('id', 'letters')
+
+svg.stage.append(letters)
+
 
 for (let col = 0; col < nCols; col++) {
   
@@ -141,7 +138,7 @@ for (let col = 0; col < nCols; col++) {
     }
     text.append(row)
   }
-  group.append(text)
+  letters.append(text)
 
   cols.push(text)
   a.x += cols[col].getBBox().width
@@ -163,10 +160,14 @@ reloadBtn.addEventListener('click', newSketch)
 
 
 
+// SVG-TEXT-TO-PATH
+
+// let session = new SvgTextToPath(document.querySelector('svg'), {
+//   useFontFace: true,
+// });
+// let stat = session.replaceAll();
 
 
-
-// CONTROLS
 
 
 
