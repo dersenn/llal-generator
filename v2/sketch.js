@@ -34,15 +34,15 @@ let defs = document.createElementNS(svg.ns, 'defs')
 let style = document.createElementNS(svg.ns, 'style')
 style.setAttribute('type', 'text/css')
 
-style.append('@font-face \{ font-family: LLAL-linear; src: url(\'assets/fonts/LLALLogoLinearGX.ttf\')\; \}')
-style.append('svg \{ font-family: LLAL-linear; \}')
+// style.append('@font-face \{ font-family: LLAL-linear; src: url(\'assets/fonts/LLALLogoLinearGX.ttf\')\; \}')
+// style.append('svg \{ font-family: LLAL-linear; \}')
 
 defs.append(style)
 svg.stage.prepend(defs)
 
 
 
-const useFilter = coinToss(50)
+const useFilter = coinToss(100)
 const useBlanks = coinToss(50)
 const useCircles = coinToss(50)
 
@@ -105,7 +105,7 @@ if(useCircles && useFilter) {
       x: rnd() * svg.w,
       y: rnd() * svg.h
     }
-    circles.push(svg.makeCircle(pos, rnd()*300, 'transparent', 'black', rndInt(3, 20)))
+    circles.push(svg.makeCircle(pos, rnd()*300, 'transparent', 'white', rndInt(3, 20)))
   }  
 }
 
@@ -127,15 +127,15 @@ for (let col = 0; col < nCols; col++) {
 
     let wShuffled = shuffle(wdths)
     for (let g = 0; g < txt.length; g++) {
-      let rndfill = 'black'
+      let rndfill = 'white'
       if(useBlanks) {
         if(coinToss(blanksProb)) {
-          rndfill = 'white'
+          rndfill = 'transparent'
         }
       }
       let span = document.createElementNS(svg.ns, 'tspan')
       span.setAttribute('style', 'font-size: ' + fSize + ';' + 'font-variation-settings: \'wdth\' ' + wShuffled[g] + ';' +  'fill: ' + rndfill)
-      span.setAttribute('font-family', "LLAL Logo Linear")
+      span.setAttribute('font-family', "LLAL-linear")
       span.innerHTML = txt[g]
       row.append(span)
     }

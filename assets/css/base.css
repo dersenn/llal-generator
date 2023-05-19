@@ -14,7 +14,7 @@
 
 @font-face {
   font-family: 'LLAL-linear';
-  src: url(/../fonts/LLALLogoLinearGX.ttf) format('truetype');
+  src: url(/../assets/fonts/LLALLogoLinearGX.ttf) format('truetype');
 }
 
 * {
@@ -26,6 +26,7 @@
 body {
   width: 100%;
   height: 100vh;
+  background-color: #CEC1DE;
 }
 
 svg {
@@ -33,3 +34,17 @@ svg {
   height: 100%;
   font-family: LLAL-linear;
 }
+
+/*
+hellviolett
+#CEC1DE
+
+dunkelviolett
+#381C4A
+
+hellgrau
+#F1F1F1
+
+rotorange
+#FF5909
+*/
