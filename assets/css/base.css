@@ -1,8 +1,20 @@
 /* Some basic styling */
 
+/* @font-face { 
+  font-family: 'font'; 
+  src: url('font.eot');
+  src: url('location/of/font.eot?#iefix') format('eot'), 
+       url('location/of/font.woff') format('woff'), 
+       url('location/of/font.ttf') format('truetype'), 
+       url('location/of/font.svg#webfont') format('svg'); 
+  font-weight: 400; 
+  font-style: normal; 
+} */
+
+
 @font-face {
-  font-family: LLAL-linear;
-  src: url(/../fonts/LLALLogoLinearGX.ttf);
+  font-family: 'LLAL-linear';
+  src: url(/../fonts/LLALLogoLinearGX.ttf) format('truetype');
 }
 
 * {

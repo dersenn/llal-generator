@@ -34,8 +34,8 @@ let defs = document.createElementNS(svg.ns, 'defs')
 let style = document.createElementNS(svg.ns, 'style')
 style.setAttribute('type', 'text/css')
 
-style.append('@font-face \{ font-family: LLAL; src: url(\'/../assets/fonts/LLALLogoLinearGX.ttf\')\; \}')
-style.append('svg \{ font-family: LLAL; \}')
+style.append('@font-face \{ font-family: LLAL-linear; src: url(\'assets/fonts/LLALLogoLinearGX.ttf\')\; \}')
+style.append('svg \{ font-family: LLAL-linear; \}')
 
 defs.append(style)
 svg.stage.prepend(defs)
@@ -70,7 +70,7 @@ if (useFilter) {
   turb.setAttribute('type', 'turbulence')
   turb.setAttribute('seed', rnd()*100)
   turb.setAttribute('baseFrequency', `${rnd()/100} ${rnd()/100}`)
-  turb.setAttribute('numOctaves', rnd()*10)
+  turb.setAttribute('numOctaves', rndInt(1,10))
   turb.setAttribute('result', 'turbulence')
 
   let disp = document.createElementNS(svg.ns, 'feDisplacementMap')
