@@ -38,7 +38,7 @@ svg.stage.prepend(defs)
 
 const useFilter = coinToss(100)
 const useBlanks = coinToss(50)
-const useCircles = coinToss(50)
+const useCircles = coinToss(0)
 
 
 const blanksProb = rnd()*100
@@ -61,6 +61,8 @@ let cols = []
 if (useFilter) {
   let swirl = document.createElementNS(svg.ns, 'filter')
   swirl.setAttribute('id', 'swirl')
+  swirl.setAttribute('width', svg.w)
+  swirl.setAttribute('height', svg.h)
 
   let turb = document.createElementNS(svg.ns, 'feTurbulence')
   turb.setAttribute('type', 'turbulence')
@@ -69,6 +71,9 @@ if (useFilter) {
   turb.setAttribute('numOctaves', rndInt(1,10))
   turb.setAttribute('result', 'turbulence')
 
+  turb.setAttribute('color-interpolation-filters', 'sRGB')
+
+
   let disp = document.createElementNS(svg.ns, 'feDisplacementMap')
   disp.setAttribute('in2', 'turbulence')
   disp.setAttribute('in', 'SourceGraphic')
@@ -76,8 +81,11 @@ if (useFilter) {
   disp.setAttribute('xChannelSelector', 'R')
   disp.setAttribute('yChannelSelector', 'G')
 
+  disp.setAttribute('color-interpolation-filters', 'sRGB')
+
   swirl.append(turb, disp)
-  svg.stage.prepend(swirl)
+  // svg.stage.prepend(swirl)
+  defs.append(swirl)
 
   svg.stage.setAttribute('style', 'filter: url(#swirl')
 }
@@ -132,7 +140,7 @@ for (let col = 0; col < nCols; col++) {
       }
       let span = document.createElementNS(svg.ns, 'tspan')
       span.setAttribute('style', 'font-size: ' + fSize + ';' + 'font-variation-settings: \'wdth\' ' + wShuffled[g] + ';' +  'fill: ' + rndfill)
-      span.setAttribute('font-family', "LLAL-linear")
+      // span.setAttribute('font-family', "LLAL-linear")
       span.innerHTML = txt[g]
       row.append(span)
     }
@@ -162,10 +170,10 @@ reloadBtn.addEventListener('click', newSketch)
 
 // SVG-TEXT-TO-PATH
 
-// let session = new SvgTextToPath(document.querySelector('svg'), {
-//   useFontFace: true,
-// });
-// let stat = session.replaceAll();
+let session = new SvgTextToPath(document.querySelector('svg'), {
+  useFontFace: true,
+});
+let stat = session.replaceAll();
 
 
 
