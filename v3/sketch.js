@@ -36,7 +36,7 @@ svg.stage.prepend(defs)
 
 
 
-const useFilter = coinToss(100)
+const useFilter = coinToss(0)
 const useBlanks = coinToss(50)
 const useCircles = coinToss(0)
 
@@ -87,7 +87,7 @@ if (useFilter) {
   // svg.stage.prepend(swirl)
   defs.append(swirl)
 
-  svg.stage.setAttribute('style', 'filter: url(#swirl')
+  svg.stage.setAttribute('style', 'filter: url(#swirl)')
 }
 
 
