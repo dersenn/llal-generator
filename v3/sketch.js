@@ -36,18 +36,23 @@ svg.stage.prepend(defs)
 
 
 
-const useFilter = coinToss(0)
-const useBlanks = coinToss(50)
+const useFilter = coinToss(100)
+const useBlanks = coinToss(100)
 const useCircles = coinToss(0)
 
 
-const blanksProb = rnd()*100
+const blanksProb = rndInt(30, 60)
 
 const wdths = [50, 100, 150, 200]
 const nCols = 20
-const nRows = rndInt(3, 30)
+const nRows = rndInt(9, 30)
 const fSize = (100 / nRows) * 1.5 +'vh'
 const lOff = '.66em'
+
+const colBG = '#ffffff'
+const colFG = '#000000'
+
+document.body.setAttribute('style', `background-color: ${colBG}`)
 
 
 let a = nVec(0, 0)
@@ -56,9 +61,32 @@ let txt = 'LLAL'
 let cols = []
 
 
+let letters = document.createElementNS(svg.ns, 'g')
+letters.setAttribute('id', 'letters')
+svg.stage.append(letters)
+
+let circles = document.createElementNS(svg.ns, 'g')
+circles.setAttribute('id', 'circles')
+
+
+
 // FILTER STUFF
 
+let fSet = {
+  rows: nRows,
+  blnkProb: blanksProb,
+  seed: Math.round(rnd()*100),
+  freqX: Math.round((rnd()/100)*100000)/100000,
+  freqY: Math.round((rnd()/100)*100000)/100000,
+  // bFreq: `${rnd()/100} ${rnd()/100}`,
+  nOct: rndInt(5,20),
+  scale: rndInt(50,100)
+}
+
+console.log(fSet)
+
 if (useFilter) {
+
   let swirl = document.createElementNS(svg.ns, 'filter')
   swirl.setAttribute('id', 'swirl')
   swirl.setAttribute('width', svg.w)
@@ -66,20 +94,19 @@ if (useFilter) {
 
   let turb = document.createElementNS(svg.ns, 'feTurbulence')
   turb.setAttribute('type', 'turbulence')
-  turb.setAttribute('seed', rnd()*100)
-  turb.setAttribute('baseFrequency', `${rnd()/100} ${rnd()/100}`)
-  turb.setAttribute('numOctaves', rndInt(1,10))
-  turb.setAttribute('result', 'turbulence')
-
+  turb.setAttribute('seed', fSet.seed)
+  turb.setAttribute('baseFrequency', `${fSet.freqX} ${fSet.freqY}`)
+  turb.setAttribute('numOctaves', fSet.nOct)
   turb.setAttribute('color-interpolation-filters', 'sRGB')
+  turb.setAttribute('result', 'turbulence')
 
 
   let disp = document.createElementNS(svg.ns, 'feDisplacementMap')
-  disp.setAttribute('in2', 'turbulence')
   disp.setAttribute('in', 'SourceGraphic')
-  disp.setAttribute('scale', rnd()*100)
-  disp.setAttribute('xChannelSelector', 'R')
-  disp.setAttribute('yChannelSelector', 'G')
+  disp.setAttribute('in2', 'turbulence')
+  disp.setAttribute('scale', fSet.scale)
+  // disp.setAttribute('xChannelSelector', 'R')
+  // disp.setAttribute('yChannelSelector', 'G')
 
   disp.setAttribute('color-interpolation-filters', 'sRGB')
 
@@ -87,7 +114,8 @@ if (useFilter) {
   // svg.stage.prepend(swirl)
   defs.append(swirl)
 
-  svg.stage.setAttribute('style', 'filter: url(#swirl)')
+  letters.setAttribute('style', 'filter: url(#swirl)')
+  circles.setAttribute('style', 'filter: url(#swirl)')
 }
 
 
@@ -95,7 +123,6 @@ if (useFilter) {
 // GRAPHICS
 
 if(useCircles && useFilter) {
-  let circles = []
   let nCircles = rndInt(5, 50)
   
   for (let c = 0; c < nCircles; c++) {
@@ -103,18 +130,13 @@ if(useCircles && useFilter) {
       x: rnd() * svg.w,
       y: rnd() * svg.h
     }
-    circles.push(svg.makeCircle(pos, rnd()*300, 'transparent', 'white', rndInt(3, 20)))
-  }  
+    circles.append(svg.makeCircle(pos, rnd()*300, 'transparent', colFG, rndInt(3, 20)))
+  }
+  svg.stage.append(circles)
 }
 
 
 // LETTERS
-
-let letters = document.createElementNS(svg.ns, 'g')
-letters.setAttribute('id', 'letters')
-
-svg.stage.append(letters)
-
 
 for (let col = 0; col < nCols; col++) {
   
@@ -132,14 +154,14 @@ for (let col = 0; col < nCols; col++) {
 
     let wShuffled = shuffle(wdths)
     for (let g = 0; g < txt.length; g++) {
-      let rndfill = 'white'
+      let fill = colFG
       if(useBlanks) {
         if(coinToss(blanksProb)) {
-          rndfill = 'transparent'
+          fill = colBG
         }
       }
       let span = document.createElementNS(svg.ns, 'tspan')
-      span.setAttribute('style', 'font-size: ' + fSize + ';' + 'font-variation-settings: \'wdth\' ' + wShuffled[g] + ';' +  'fill: ' + rndfill)
+      span.setAttribute('style', 'font-size: ' + fSize + ';' + 'font-variation-settings: \'wdth\' ' + wShuffled[g] + ';' +  'fill: ' + fill)
       // span.setAttribute('font-family', "LLAL-linear")
       span.innerHTML = txt[g]
       row.append(span)
@@ -156,16 +178,38 @@ for (let col = 0; col < nCols; col++) {
 
 /////// INTERACTION, KEYS & FILEHANDLING
 
+const controls = document.getElementById('controls')
+const values = document.createElement('ul')
+
+const reloadBtn = document.createElement('a')
+reloadBtn.classList.add('btn')
+reloadBtn.setAttribute('id', 'btnreload')
+reloadBtn.append('new')
+
+for (const property in fSet) {
+  const prop = document.createElement('li')
+  console.log(prop)
+  prop.append(`${property}: ${fSet[property]}`)
+  values.append(prop)
+  // console.log(`${property}: ${fSet[property]}`)
+}
+
+const btnLi = document.createElement('li')
+btnLi.append(reloadBtn)
+values.append(btnLi)
+
+controls.append(values)
+
+
+// const reloadBtn = document.getElementById('btnreload')
+reloadBtn.addEventListener('click', newSketch)
+
 function newSketch() {
   const myURL = new URL(window.location.href)
   const newHash = seed.new()
   myURL.searchParams.set('seed', newHash)
   window.location.href = myURL.href
 }
-
-const reloadBtn = document.getElementById('btnreload')
-reloadBtn.addEventListener('click', newSketch)
-
 
 
 // SVG-TEXT-TO-PATH
