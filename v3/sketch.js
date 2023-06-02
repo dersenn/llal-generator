@@ -41,7 +41,7 @@ const useBlanks = coinToss(100)
 const useCircles = coinToss(0)
 
 
-const blanksProb = rndInt(30, 60)
+const blanksProb = rndInt(40, 75)
 
 const wdths = [50, 100, 150, 200]
 const nCols = 20
@@ -76,11 +76,11 @@ let fSet = {
   rows: nRows,
   blnkProb: blanksProb,
   seed: Math.round(rnd()*100),
-  freqX: Math.round((rnd()/100)*100000)/100000,
-  freqY: Math.round((rnd()/100)*100000)/100000,
+  freqX: Math.round((rndInt(40, 100)/10000)*100000)/100000,
+  freqY: Math.round((rndInt(40, 100)/10000)*100000)/100000,
   // bFreq: `${rnd()/100} ${rnd()/100}`,
   nOct: rndInt(5,20),
-  scale: rndInt(50,100)
+  scale: rndInt(75,120)
 }
 
 console.log(fSet)
