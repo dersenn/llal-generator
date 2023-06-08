@@ -23,8 +23,8 @@ class SVG {
     this.mime = { type: 'image/svg+xml' }
     this.parent = setup.parent
     this.id = setup.id
-    this.w = this.parent.clientWidth
-    this.h = this.parent.clientHeight
+    this.w = (setup.width) ? setup.width : this.parent.clientWidth
+    this.h = (setup.height) ? setup.height : this.parent.clientHeight
     this.c = new Vec(this.w/2, this.h/2)
     this.els = []
 
@@ -48,7 +48,7 @@ class SVG {
     this.stage.setAttribute('width', this.w)
     this.stage.setAttribute('height', this.h)
     this.stage.setAttribute('viewBox', `0 0 ${this.w} ${this.h}`)
-    this.stage.setAttribute('preserveAspectRatio', setup.presAspect)
+    // this.stage.setAttribute('preserveAspectRatio', setup.presAspect)
     this.parent.append(this.stage)
   }
 

@@ -13,15 +13,28 @@ if (useSeed) {
 }
 
 
+// MEASUREMENTS FOR PRINT
+
+const docWidth = 293
+const docHeight = 125
+const aspect = docWidth / docHeight
+const scaledWidth = document.body.clientWidth
+const scaledHeight = scaledWidth / aspect
+
+console.log(aspect, docWidth / aspect)
+
 // SETUP SVG
 
 const setup = {
       id: 'mySVG',
       parent: document.body,
+      width: scaledWidth,
+      height: scaledHeight,
       presAspect: 'none', // other values?
 }
 
 let svg = new SVG(setup)
+
 
 
 // SETUP SKETCH
@@ -30,29 +43,27 @@ let defs = document.createElementNS(svg.ns, 'defs')
 svg.stage.prepend(defs)
 
 
-// let style = document.createElementNS(svg.ns, 'style')
-// style.setAttribute('type', 'text/css')
-// defs.append(style)
-
-
-
 const useFilter = coinToss(100)
 const useBlanks = coinToss(100)
 const useCircles = coinToss(0)
 
-
 const blanksProb = rndInt(40, 75)
 
+const borderTop = 40
+
 const wdths = [50, 100, 150, 200]
-const nCols = 20
-const nRows = rndInt(9, 30)
-const fSize = (100 / nRows) * 1.5 +'vh'
+const nCols = 30
+const nRows = rndInt(9, 20)
+const fSize = ((setup.height - borderTop) / nRows) * 1.5 +'px'
+// const fSize = (100 / nRows) * 1.5 +'vh'
 const lOff = '.66em'
 
 const colBG = '#ffffff'
 const colFG = '#000000'
 
-document.body.setAttribute('style', `background-color: ${colBG}`)
+document.body.style['background-color'] = '#eee'
+svg.stage.style['font-family'] = 'LLAL-linear'
+svg.stage.style['background-color'] = colBG
 
 
 let a = nVec(0, 0)
@@ -83,7 +94,6 @@ let fSet = {
   scale: rndInt(75,120)
 }
 
-console.log(fSet)
 
 if (useFilter) {
 
@@ -105,13 +115,10 @@ if (useFilter) {
   disp.setAttribute('in', 'SourceGraphic')
   disp.setAttribute('in2', 'turbulence')
   disp.setAttribute('scale', fSet.scale)
-  // disp.setAttribute('xChannelSelector', 'R')
-  // disp.setAttribute('yChannelSelector', 'G')
 
   disp.setAttribute('color-interpolation-filters', 'sRGB')
 
   swirl.append(turb, disp)
-  // svg.stage.prepend(swirl)
   defs.append(swirl)
 
   letters.setAttribute('style', 'filter: url(#swirl)')
@@ -188,7 +195,6 @@ reloadBtn.append('new')
 
 for (const property in fSet) {
   const prop = document.createElement('li')
-  console.log(prop)
   prop.append(`${property}: ${fSet[property]}`)
   values.append(prop)
   // console.log(`${property}: ${fSet[property]}`)
@@ -201,7 +207,6 @@ values.append(btnLi)
 controls.append(values)
 
 
-// const reloadBtn = document.getElementById('btnreload')
 reloadBtn.addEventListener('click', newSketch)
 
 function newSketch() {
@@ -210,6 +215,8 @@ function newSketch() {
   myURL.searchParams.set('seed', newHash)
   window.location.href = myURL.href
 }
+
+
 
 
 // SVG-TEXT-TO-PATH

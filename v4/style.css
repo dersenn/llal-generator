@@ -12,14 +12,14 @@
 
 body {
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
 
-svg {
+/* svg {
   width: 100%;
   height: 100%;
   font-family: LLAL-linear;
-}
+} */
 
 /*
 hellviolett
@@ -38,7 +38,7 @@ rotorange
 
 #controls {
   position: fixed;
-  top: 1em;
+  bottom: 1em;
   right: 0;
   width: 100%;
   height: fit-content;
