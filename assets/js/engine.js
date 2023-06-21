@@ -571,6 +571,7 @@ function shuffle(iA) {
 const keyHandlers = (event) => {
   switch (event.key) {
     case 'd':
+      console.log('d pressed')
       svg.save()
       break
     case 'n': {

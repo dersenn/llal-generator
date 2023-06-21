@@ -53,7 +53,7 @@ const borderTop = 40
 
 const wdths = [50, 100, 150, 200]
 const nCols = 30
-const nRows = rndInt(9, 20)
+const nRows = rndInt(5, 11)
 const fSize = ((setup.height - borderTop) / nRows) * 1.5 +'px'
 // const fSize = (100 / nRows) * 1.5 +'vh'
 const lOff = '.66em'

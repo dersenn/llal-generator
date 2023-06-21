@@ -21,6 +21,14 @@ const aspect = docWidth / docHeight
 const scaledWidth = document.body.clientWidth
 const scaledHeight = scaledWidth / aspect
 
+// const scaledWidth = 1000
+// const scaledHeight = scaledWidth / aspect
+
+
+// const scaledWidth = docWidth
+// const scaledHeight = docHeight
+
+
 console.log(aspect, docWidth / aspect)
 
 // SETUP SVG
