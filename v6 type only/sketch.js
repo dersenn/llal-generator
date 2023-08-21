@@ -15,18 +15,11 @@ if (useSeed) {
 
 // MEASUREMENTS FOR PRINT
 
-const docWidth = 120 + 108.5 + 181 + 107 + 90 + 20
-const docHeight = 300 + 20
+const docWidth = 293
+const docHeight = 125
 const aspect = docWidth / docHeight
-const scaledWidth = docWidth * 4 //document.body.clientWidth
-const scaledHeight = docHeight * 4 //scaledWidth / aspect
-
-// const scaledWidth = 1000
-// const scaledHeight = scaledWidth / aspect
-
-// const scaledWidth = docWidth
-// const scaledHeight = docHeight
-
+const scaledWidth = document.body.clientWidth
+const scaledHeight = scaledWidth / aspect
 
 console.log(aspect, docWidth / aspect)
 
@@ -60,7 +53,7 @@ const borderTop = 40
 
 const wdths = [50, 100, 150, 200]
 const nCols = 30
-const nRows = 28 //rndInt(9, 20)
+const nRows = rndInt(5, 11)
 const fSize = ((setup.height - borderTop) / nRows) * 1.5 +'px'
 // const fSize = (100 / nRows) * 1.5 +'vh'
 const lOff = '.66em'
